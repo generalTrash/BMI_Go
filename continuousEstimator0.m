@@ -199,7 +199,7 @@ function [x, y] = positionEstimator(test_data, modelParameters)
      vertical_mov = vertical_mov+training_data(i,predict_direction_index).handPos(2,end-100)-training_data(i,predict_direction_index).handPos(2,300);
  end
  end
- horizontal_mov=horizontal_mov/size(training_data,1);
+ horizontal_mov=horizontal_mov/size(training_data,1)
  vertical_mov=vertical_mov/size(training_data,1);
  x=test_data.startHandPos(1)+horizontal_mov;
  y=test_data.startHandPos(2)+vertical_mov;

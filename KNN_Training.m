@@ -17,7 +17,6 @@ function [modelParameters] = positionEstimatorTraining(training_data)
     modelParameters.k=k;
     modelParameters.training_data=training_data;
     modelParameters.a=a;
-    modelParameters.a=a;
     modelParameters.b=b;
     modelParameters.ID=-1;
     

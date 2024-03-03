@@ -51,10 +51,10 @@ function [x, y] = positionEstimator(test_data, modelParameters)
   a=modelParameters.a;
   b=modelParameters.b;
 
-   test_spikes=test_data.spikes;
- X_test=zeros(1,98);
- spike_number=0;
- time_length=length(test_spikes(1,:))
+  test_spikes=test_data.spikes;
+  X_test=zeros(1,98);
+  spike_number=0;
+  time_length=length(test_spikes(1,:));
  
  for m = 1:time_length
  spike_number=spike_number+test_spikes(:,m);
