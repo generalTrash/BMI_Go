@@ -1,3 +1,4 @@
+% estimate function
 function [x, y] = positionEstimator(test_data, modelParameters)
 
   % **********************************************************
@@ -45,8 +46,9 @@ function [x, y] = positionEstimator(test_data, modelParameters)
   
   % - [x, y]:
   %     current position of the hand
+ 
 
-  % read the parameters
+    % read the parameters
   average_firing_rate=modelParameters.average_firing_rate;
   k=modelParameters.k;
   training_data=modelParameters.training_data;
@@ -81,4 +83,30 @@ function [x, y] = positionEstimator(test_data, modelParameters)
  x=test_data.startHandPos(1)+x_sum/size(training_data,1);
  y=test_data.startHandPos(2)+y_sum/size(training_data,1);
    
+end
+
+% knn classification
+function pred = knn(average_firing_rate, test_f_rate, k,direction_size)
+    train_num = size(average_firing_rate, 1);
+    test_num = size(test_f_rate, 1); 
+
+    %locate memory
+    dist = zeros(test_num, train_num);
+    pred = zeros(test_num, 1);
+    
+    % difference between test and training dataset
+    for i = test_num
+        for j = 1:train_num
+            dist(i,j) = norm(test_f_rate(i,:) - average_firing_rate(j,:));
+        end
+    end
+    
+    % k classification
+    [~, idx] = sort(dist, 'ascend');
+    idx = idx(:, 1:k);
+    
+    for i = 1:test_num
+        knn_labels = (mod(idx(i,:)-1,direction_size)+1)';
+        pred(i) = mode(knn_labels);
+    end
 end

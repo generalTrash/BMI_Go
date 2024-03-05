@@ -20,7 +20,6 @@ addpath('BMI_Go');
 % Select training and testing data (you can choose to split your data in a different way if you wish)
 trainingData = trial(ix(1:50),:);
 testData = trial(ix(51:end),:);
-size(trainingData)
 
 fprintf('Testing the continuous position estimator...')
 
@@ -33,7 +32,7 @@ axis square
 grid
 
 % Train Model
-modelParameters = KNN_Training(trainingData);
+modelParameters = positionEstimatorTraining(trainingData);
 
 for tr=1:size(testData,1)
     display(['Decoding block ',num2str(tr),' out of ',num2str(size(testData,1))]);
@@ -54,7 +53,7 @@ for tr=1:size(testData,1)
                 [decodedPosX, decodedPosY, newParameters] = KNNEstimator(past_current_trial, modelParameters);
                 modelParameters = newParameters;
             elseif nargout('KNNEstimator') == 2
-                [decodedPosX, decodedPosY] = KNNEstimator(past_current_trial, modelParameters);
+                [decodedPosX, decodedPosY] = positionEstimator(past_current_trial, modelParameters);
             end
             
             decodedPos = [decodedPosX; decodedPosY];

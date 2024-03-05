@@ -1,23 +1,19 @@
 function [modelParameters] = positionEstimatorTraining(training_data)
-    a = size(training_data,1)
-    b = size(training_data,2)
-    X=zeros(a*b,98);
-    y=zeros(a*b,1);
+    train_size = size(training_data,1);
+    direction_size = size(training_data,2);
+    average_f_rate=zeros(train_size*direction_size,98);
  
-    for i = 1:a
-        for n = 1:b
+    for i = 1:train_size
+        for n = 1:direction_size
             spikes = training_data(i,n).spikes;
             f_rate=sum(spikes, 2)/size(spikes,2);
-            X((i-1) * b + n,:)=f_rate;
-            y((i-1) * b + n,:)=n;
+            average_f_rate((i-1) * direction_size + n,:)=f_rate;
         end
     end
-    k=a*b/8;
-    modelParameters.X=X;
+    k=train_size*direction_size/8;
+    modelParameters.average_firing_rate=average_f_rate;
     modelParameters.k=k;
     modelParameters.training_data=training_data;
-    modelParameters.a=a;
-    modelParameters.b=b;
-    modelParameters.ID=-1;
-    
+    modelParameters.train_size=train_size;
+    modelParameters.direction_size=direction_size;
 end
